@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NFMD LAB 박막 증착 신청</title>
+  <style>
+    /* 기본 스타일 (원하는 디자인에 맞게 수정하세요) */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      border-radius: 5px;
+    }
+    h1, h3 {
+      color: #2A2650;
+    }
+    p {
+      margin-bottom: 20px;
+    }
+    .box_basic {
+      border: 1px solid #E0DFE2;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      background-color: #f7f7f7;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="file"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+    .ref-section {
+        /* 요약 텍스트는 왼쪽 정렬, 이미지 만 센터 */
+        text-align: left;
+        margin-top: 12px;
+    }
+    .ref-section details summary {
+        cursor: pointer;
+        font-size: 0.95rem;
+        color: #007bff;
+        list-style: none;     /* 불릿 제거 */
+        /* summary 는 block 요소이므로 text-align 없이도 왼쪽 정렬 */
+    }
+    .ref-section details img {
+        display: block;
+        max-width: 90%;
+        height: auto;
+        margin: 8px auto 0;    /* 상단 여백 8px, 좌우 자동(margin:0 auto)으로 가운데 정렬 */
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    } 
+    .radio {
+        display: flex;
+        align-items: center;    /* 자율(라디오)와 입력창을 수직 가운데 정렬 */
+        gap: 16px;
+    }
+    .radio label {
+        display: flex;
+        align-items: center;    /* 라벨 안의 요소들도 가운데 정렬 */
+        gap: 8px;
+    }
+    .radio input[type="text"] {
+        width: 80px;
+        padding: 4px;
+        font-size: 0.9rem;
+        vertical-align: middle; /* 인라인 요소 수직 정렬 보조 */
+        /* 미세 조정이 필요하면 아래 값 조절 */
+        transform: translateY(5px);
+    }
+    .chamber-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.95rem;
+    text-align: center;
+    }
+    .chamber-table th,
+    .chamber-table td {
+    border: 1px solid #E0DFE2;
+    padding: 10px;
+    }
+    .chamber-table thead th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    }
+    .chamber-table tbody tr:nth-child(odd) {
+    background-color: #fafafa;
+    }
+    .filebox label {
+      display: inline-block;
+      background-color: #eee;
+      padding: 6px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .filebox .upload-name {
+      margin-left: 10px;
+      vertical-align: middle;
+      color: #666;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #2A2650;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2A3562;
+    }
+    .add_button {
+      background-color: #ccc;
+      margin-top: 10px;
+    }
+    .info p {
+      font-size: 0.9em;
+      color: #777;
+    }
+   
+  </style>
+ <!-- jQuery (필요한 스크립트 기능을 위해) -->
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- 페이지 제목 및 안내 문구 -->
+    <h1>NFMD LAB 박막 증착 신청</h1>
+    <p>
+      증착 가능 물질 ( *금액은 상담 이후 결정됩니다.)
+        <h2>챔버 구성 (Materials &amp; MFC)</h2>
+        <table class="chamber-table">
+          <thead>
+            <tr>
+              <th>Chamber</th>
+              <th>Materials</th>
+              <th>MFC Settings</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Cu, Al, Mo, C,<br> W, Ti, Au</td>
+              <td>Ar , O₂ , N₂ </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>GeS₂, Sn, Te, Se</td>
+              <td>Ar </td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Pt, Ag, Ti, <br> GeS₂, CuTe, TiN</td>
+              <td>Ar, O₂ </td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>IGZO, W</td>
+              <td>Ar , O₂ , N₂ </td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>GeSe₂, GeS₂, GeTe₂</td>
+              <td>Ar , O₂ , N₂ </td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>HfO₂, Ru, Al,<br> TiN, Ti</td>
+                <td>Ar , O₂ , N₂ </td>
+            </tr>
+          </tbody>
+        </table>
+    </p>
+    
+
+  
+
+    <!-- 분석 신청 양식 -->
+     <form name="requestform" method="post" data-netlify="true" data-netlify-honeypot="bot-field" enctype="multipart/form-data">
+      <!-- Honeypot 필드: 사용자가 보이지 않게 처리 -->
+      <input type="hidden" name="bot-field" value="">
+      <!-- 폼 이름(hidden 필드) -->
+      <input type="hidden" name="form-name" value="requestform">
+    
+
+      <!-- 이용약관 및 개인정보보호 동의 -->
+      <div class="box_basic">
+        <label>
+          <input type="checkbox" name="agreement" id="agreement" required>
+          상기 홈페이지 약관 및 개인정보 수집, 이용, 제공에 모두 동의합니다.
+        </label>
+      </div>
+
+      <!-- 1. 신청자 정보 -->
+      <div class="box_basic">
+        <h3>신청자 정보</h3>
+        <div>
+          <label for="person_name">이름</label>
+          <input type="text" id="person_name" name="person_name"  required>
+        </div>
+        <div>
+          <label for="team">소속</label>
+          <input type="text" id="team" name="team" required>
+        </div>
+        <div>
+          <label for="address">주소</label>
+          <input type="text" id="address" name="address" required>
+        </div>
+        <div>
+          <label for="phone">연락처 (휴대전화)</label>
+          <input type="text" id="phone" name="phone"  maxlength="13" class="phone" required>
+        </div>
+        <div>
+          <label for="email">이메일</label>
+          <input type="text" id="email" name="email" required>
+        </div>
+     </div>
+      
+
+      <!-- 2. 세금계산서 발행용 정보 -->
+      <div class="box_basic">
+        <h3>세금계산서 발행용</h3>
+        <div>
+          <label for="team2">소속 (개인 신청자는 이름을 적어주세요.)</label>
+          <input type="text" id="team2" name="team2" required>
+          
+        </div>
+        <div>
+          <label for="companynum">사업자등록번호 (개인 신청자는 주민등록번호를 적어주세요.)</label>
+          <input type="text" id="companynum" name="companynum" maxlength="15" required>
+          
+        </div>
+        <div>
+          <label for="manager">담당자</label>
+          <input type="text" id="manager" name="manager" required>
+        </div>
+        <div>
+          <label for="phone2">연락처</label>
+          <input type="text" id="phone2" name="phone2" maxlength="13" class="phone" required>
+        </div>
+        <div>
+          <label for="email2">이메일</label>
+          <input type="text" id="email2" name="email2" required>
+        </div>
+        <div>
+          <label for="company_registration">사업자등록증 사본 (개인 신청자는 주민등록증 사본을 등록해 주세요.)</label>
+          <div class="filebox">
+            <label for="file">파일 선택</label>
+            <input class="upload-name" value="선택된 파일 없음" readonly>
+            <input type="file" id="file" name="company_registration" required>
+          </div>
+        
+        </div>
+  
+        <div>
+          <label>분석료 청구서 발행 여부</label>
+          <div class="radio">
+            <label><input type="radio" name="tradingstatement" value="발행"> 발행</label>
+            <label><input type="radio" name="tradingstatement" value="" checked> 미발행</label>
+          </div>
+        </div>
+        <div>
+          <label>세금계산서 발행일</label>
+          <div class="radio">
+            <label>
+              <input type="radio" name="taxbill" value="접수 당일" checked> 접수 당일
+            </label>
+            <label>
+              <input type="radio" name="taxbill" value="지정일"> 지정일
+              <input type="text" name="taxbill_date" id="taxbill_date_input" placeholder="YYMMDD">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 분석 결과서 옵션 -->
+      <div class="box_basic">
+        <h3>증착 물질 및 증착 방식</h3>
+        <div>
+          <label>증착 방식</label>
+          <div class="radio">
+            <label><input type="radio" name="period" value="Sputtering" checked>Sputtering </label>
+            <label><input type="radio" name="period" value="Co-sputtering" checked>Co-sputtering </label>
+            <label><input type="radio" name="period" value="Reactive sputtering"> Reactive sputtering </label>
+          </div>
+        </div>
+        <div>
+          <label>수령방법</label>
+          <div class="radio">
+            <label><input type="radio" name="receive" value="방문" checked> 방문</label>
+            <label><input type="radio" name="receive" value="우편"> 우편</label>
+          </div>
+        </div>
+        <div>
+          <label>샘플 분할 여부</label>
+          <div class="radio">
+            <label><input type="radio" name="division" value="샘플별 분할"> 샘플별 분할</label>
+            <label><input type="radio" name="division" value="통합"> 통합</label>
+          </div>
+        </div>
+        <div>
+          <label>용도</label>
+          <div class="radio">
+            <label><input type="radio" name="use" value="연구개발" checked> 연구개발</label>
+            <label><input type="radio" name="use" value="과제 제출"> 과제 제출</label>
+            <label>
+              <input type="radio" name="use" value="기타" id="result_use"> 기타  
+              <input type="text" name="use_blank" id="result_info_input" placeholder="용도 입력">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. 기판 정보 -->
+      <div class="box_basic">
+        <h3>기판 정보</h3>
+        <div class="table_information">
+          <div class="sample_box">
+            <div>
+                <label>증착 물질</label>
+                <input type="text" name="sample_name[]" placeholder="증착을 원하는 물질을 작성해주세요."required>
+              </div>
+            <div>
+                <label>증착 두께</label>
+                <input type="text" name="sample_thickness[]" placeholder="원하는 두께 작성해주세요.(nm,um..)"required>
+              </div>
+	        <div>
+              <label>기판 개수</label>
+              <input type="text" name="sample_count[]" required>
+            </div>
+            <div>
+                <label>기판 종류</label>
+                <input type="text" name="sample_type[]" required>
+              </div>
+            <div>
+              <label>기판 크기</label>
+              <input type="text" name="substrate_size[]" required>
+            </div>    
+          </div>
+        </div>
+        <button type="button" class="add_button">기판 정보 추가</button>
+      </div>
+
+
+      <!-- 5. 증착 시 요청 사항 -->
+      <div class="box_basic">
+        <h3>요청 사항</h3>
+        <div>
+          <label for="analysismemo">요청 사항 작성 </label>
+          <textarea name="analysismemo" id="analysismemo" rows="5" placeholder="원하시는 내용을 작성하세요."></textarea>
+        </div>
+      </div>
+
+      <!-- 안내 문구 및 제출 버튼 -->
+      <div class="info">
+        <p>* 증착 완료 후 당일 샘플 발송을 원하시면 추가 연락 바랍니다.</p>
+      </div>
+      <button type="submit" name="submit">신청하기</button>
+    </form>
+  </div>
+
+  <!-- 스크립트 부분 -->
+  <script>
+    // 전화번호 입력 포맷 (예: 010-0000-0000)
+    $(document).ready(function(){
+      $('.phone').keydown(function(event) {
+        var key = event.charCode || event.keyCode || 0;
+        var $text = $(this);
+        if (key !== 8 && key !== 9) {
+          if ($text.val().length === 3) {
+            $text.val($text.val() + '-');
+          }
+          if ($text.val().length === 8) {
+            $text.val($text.val() + '-');
+          }
+        }
+        return (key == 8 || key == 9 || key == 46 ||
+                (key >= 48 && key <= 57) || (key >= 96 && key <= 105));
+      });
+       document.getElementById('checkCalendar').addEventListener('click', function(e) {
+        e.preventDefault();
+        var cal = document.getElementById('calendarEmbed');
+        cal.style.display = (cal.style.display === 'none' ? 'block' : 'none');
+      });
+
+      // 파일 선택시 파일명 표시
+      $('#file').on('change', function(){
+        var fileName = $(this).val().split('\\').pop();
+        $('.upload-name').val(fileName);
+      });
+
+      // 시료 추가 버튼: 기존 시료 박스 복제 후 추가
+      $('.container').on('click', '.add_button', function(){
+        var sampleHTML = `
+          <div class="box_basic sample">
+            <h3>시료 정보 (추가)</h3>
+            <div class="table_information">
+              <div>
+                <label>증착 물질</label>
+                <input type="text" name="sample_name[]" placeholder="증착을 원하는 물질을 작성해주세요."required>
+              </div>
+              <div>
+                <label>증착 두께</label>
+                <input type="text" name="sample_thickness[]" placeholder="원하는 두께 작성해주세요.(nm,um..)"required>
+              </div>
+              <div>
+                <label>기판 종류</label>
+                <input type="text" name="sample_type[]" required>
+              </div>
+              <div>
+                <label>기판 개수</label>
+                <input type="text" name="sample_count[]" required>
+              </div>
+              <div>
+                <label>기판 크기</label>
+                <input type="text" name="substrate_size[]" required>
+              </div>
+    
+            </div>
+            <button type="button" class="delete" onclick="$(this).parent().remove();">삭제</button>
+          </div>`;
+        // 시료 추가 박스는 컨테이너에 후단에 추가합니다.
+         $(this).closest('.box_basic').after(sampleHTML);
+      });
+    });
+  </script>
+</body>
+</html>
